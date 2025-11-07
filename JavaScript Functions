@@ -8,6 +8,27 @@ This is a **complete roadmap + function list** that real developers use daily.
 
 ## 🧩 1️⃣ Basic JavaScript Functions (Foundation Level)
 
+
+## ✅ 1. Basic Built-in Functions
+
+| Function        | Description                           | Example                           |
+| --------------- | ------------------------------------- | --------------------------------- |
+| `alert()`       | Displays an alert popup               | `alert("Hello!")`                 |
+| `prompt()`      | Gets user input                       | `let name = prompt("Your name?")` |
+| `confirm()`     | Asks user to confirm (OK/Cancel)      | `confirm("Are you sure?")`        |
+| `console.log()` | Prints messages to console            | `console.log("Debugging!")`       |
+| `parseInt()`    | Converts string → integer             | `parseInt("100")`                 |
+| `parseFloat()`  | Converts string → float               | `parseFloat("10.55")`             |
+| `isNaN()`       | Checks if value is not a number       | `isNaN("abc") // true`            |
+| `typeof()`      | Checks variable type                  | `typeof 123 // "number"`          |
+| `Number()`      | Converts to number                    | `Number("45") // 45`              |
+| `String()`      | Converts to string                    | `String(123) // "123"`            |
+| `Boolean()`     | Converts to boolean                   | `Boolean(0) // false`             |
+| `eval()`        | Executes string as code (⚠ dangerous) | `eval("2+2") // 4`                |
+
+
+
+
 ### 🔹 String Functions
 
 | Function        | Example                                | Purpose                |
