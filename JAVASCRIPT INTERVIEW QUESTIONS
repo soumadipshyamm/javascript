@@ -1,0 +1,1023 @@
+JAVASCRIPT INTERVIEW QUESTIONS — LOGICAL + TRICKY + ADVANCED
+
+---
+
+## 🧩 LEVEL 1 — CORE LOGIC & BASICS
+
+---
+
+### 🧮 1. What’s the output?
+
+```js
+console.log(typeof null);
+```
+
+👉 **Answer:** `"object"`
+📘 **Reason:**
+This is a **bug in JavaScript** from early days. `null` is a primitive type, but `typeof null` returns `"object"` for legacy reasons.
+
+---
+
+### 🔢 2. What happens here?
+
+```js
+console.log(1 + "2" + "2");
+console.log(1 + +"2" + "2");
+console.log(1 + -"1" + "2");
+console.log(+"1" + "1" + "2");
+```
+
+👉 **Output:**
+
+```
+"122"
+"32"
+"02"
+"112"
+```
+
+📘 **Reason:**
+
+* `+"2"` converts `"2"` → `2`
+* `-"1"` converts `"1"` → `-1`
+* JS does implicit type coercion during `+` operations (number + string → string).
+
+---
+
+### 🎭 3. Predict the output:
+
+```js
+let a = [1, 2, 3];
+let b = [1, 2, 3];
+console.log(a == b);
+console.log(a === b);
+```
+
+👉 **Answer:**
+
+```
+false
+false
+```
+
+📘 **Reason:**
+In JS, **arrays are reference types**. Different arrays (even with same values) have different references.
+
+---
+
+### 🧠 4. What’s the output?
+
+```js
+console.log([] + []);
+console.log([] + {});
+console.log({} + []);
+console.log({} + {});
+```
+
+👉 **Output:**
+
+```
+""
+"[object Object]"
+0
+"[object Object][object Object]"
+```
+
+📘 **Reason:**
+
+* `[]` is converted to an empty string `""`.
+* `{}` can act as a block or object, depending on context.
+* JS performs **type coercion** to strings when using `+` with objects.
+
+---
+
+### 💡 5. Logical coercion trick:
+
+```js
+console.log(!!null);
+console.log(!!"");
+console.log(!!1);
+```
+
+👉 **Output:**
+
+```
+false
+false
+true
+```
+
+📘 **Reason:**
+`!!` converts any value into its **boolean equivalent**.
+Falsy values: `0`, `""`, `null`, `undefined`, `false`, `NaN`.
+
+---
+
+## 🧩 LEVEL 2 — INTERMEDIATE LOGIC
+
+---
+
+### 🧮 6. What’s the difference between `==` and `===`?
+
+* `==` → **Loose Equality** (performs type coercion)
+* `===` → **Strict Equality** (no coercion)
+
+**Example:**
+
+```js
+0 == false   // true
+0 === false  // false
+"5" == 5     // true
+"5" === 5    // false
+```
+
+---
+
+### 🧩 7. Scope trick
+
+```js
+var x = 10;
+function test() {
+  console.log(x);
+  var x = 20;
+}
+test();
+```
+
+👉 **Output:** `undefined`
+📘 **Reason:**
+`var` is **hoisted** — it’s declared at the top but not initialized, so `x` inside the function shadows the outer one.
+
+---
+
+### ⚙️ 8. Function Hoisting
+
+```js
+greet();
+function greet() {
+  console.log("Hello");
+}
+```
+
+👉 Works fine — **Function Declarations** are hoisted.
+
+But:
+
+```js
+sayHi(); // ❌ Error
+const sayHi = function() { console.log("Hi"); };
+```
+
+👉 **Error** — **Function Expressions** are *not* hoisted with value.
+
+---
+
+### 🔄 9. Reverse a string without `.reverse()`
+
+```js
+function reverseStr(str) {
+  let rev = "";
+  for (let i = str.length - 1; i >= 0; i--) {
+    rev += str[i];
+  }
+  return rev;
+}
+console.log(reverseStr("Soumadip")); // pidamuoS
+```
+
+---
+
+### 🧠 10. Find the missing number in array (1–n)
+
+```js
+function findMissing(arr) {
+  let n = arr.length + 1;
+  let total = (n * (n + 1)) / 2;
+  let sum = arr.reduce((a, b) => a + b, 0);
+  return total - sum;
+}
+
+console.log(findMissing([1, 2, 4, 5, 6])); // 3
+```
+
+---
+
+## 🧩 LEVEL 3 — ADVANCED & TRICKY QUESTIONS
+
+---
+
+### 🔥 11. What’s the output?
+
+```js
+console.log(typeof NaN);
+```
+
+👉 **Output:** `"number"`
+
+📘 **Reason:**
+`NaN` stands for *Not a Number*, but its type is actually `"number"`.
+(`NaN` is a special invalid number value.)
+
+---
+
+### 🔮 12. What’s the output?
+
+```js
+console.log(0.1 + 0.2 === 0.3);
+```
+
+👉 **Answer:** `false`
+📘 **Reason:**
+Floating-point precision issue — `0.1 + 0.2 = 0.30000000000000004`.
+
+---
+
+### 🧮 13. What’s happening here?
+
+```js
+const obj = { a: 10, b: 20 };
+const clone = obj;
+clone.a = 99;
+
+console.log(obj.a);
+```
+
+👉 **Output:** `99`
+📘 **Reason:**
+Objects are **reference types** — assigning doesn’t copy, it shares the same memory.
+
+---
+
+### 🧩 14. Using destructuring in tricky ways
+
+```js
+const [a, , b] = [10, 20, 30];
+console.log(a, b);
+```
+
+👉 **Output:** `10 30`
+📘 **Reason:**
+The comma `,` skips values.
+
+---
+
+### 💥 15. Promise Trick
+
+```js
+console.log("Start");
+
+Promise.resolve().then(() => console.log("Promise"));
+
+console.log("End");
+```
+
+👉 **Output Order:**
+
+```
+Start
+End
+Promise
+```
+
+📘 **Reason:**
+Promises go into **microtask queue**, which runs after synchronous code.
+
+---
+
+### 🧮 16. Async/Await Order
+
+```js
+async function demo() {
+  console.log(1);
+  await console.log(2);
+  console.log(3);
+}
+demo();
+console.log(4);
+```
+
+👉 **Output:**
+
+```
+1
+2
+4
+3
+```
+
+📘 **Reason:**
+`await` pauses the async function, allowing main thread to continue.
+
+---
+
+### 🧩 17. Object key conversion trick
+
+```js
+const a = {};
+const b = { key: "b" };
+const c = { key: "c" };
+
+a[b] = 123;
+a[c] = 456;
+
+console.log(a[b]);
+```
+
+👉 **Output:** `456`
+📘 **Reason:**
+Objects as keys are converted to strings: `"[object Object]"`.
+
+---
+
+### 🔥 18. setTimeout Loop Challenge
+
+```js
+for (var i = 1; i <= 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+```
+
+👉 **Output:**
+
+```
+4
+4
+4
+```
+
+📘 **Reason:**
+`var` is function-scoped; all callbacks share same `i`.
+
+✅ Fix with `let`:
+
+```js
+for (let i = 1; i <= 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+// Output: 1, 2, 3
+```
+
+---
+
+### ⚡ 19. Debounce Logic (Logical Test)
+
+```js
+function debounce(fn, delay) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+```
+
+**Question:** What happens if `fn` keeps getting triggered rapidly?
+👉 Only the **last** call executes after `delay`.
+(Used in search boxes, resize events.)
+
+---
+
+### 🧠 20. Deep Copy vs Shallow Copy
+
+```js
+const user = { name: "Soumadip", skills: { js: true } };
+const copy = { ...user };
+copy.skills.js = false;
+
+console.log(user.skills.js);
+```
+
+👉 **Output:** `false`
+📘 **Reason:**
+Spread operator does **shallow copy**, not deep copy.
+
+✅ Fix:
+
+```js
+const deepCopy = structuredClone(user);
+```
+
+---
+
+### 🧩 21. Create your own `map()` function
+
+```js
+Array.prototype.myMap = function(callback) {
+  const result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i, this));
+  }
+  return result;
+};
+
+console.log([1, 2, 3].myMap(x => x * 2)); // [2, 4, 6]
+```
+
+---
+
+### 💡 22. Flatten an array (interview logic)
+
+```js
+function flatten(arr) {
+  return arr.reduce((acc, val) => 
+    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []
+  );
+}
+
+console.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]
+```
+
+---
+
+### 🧮 23. Palindrome Check (Logic)
+
+```js
+function isPalindrome(str) {
+  str = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return str === str.split('').reverse().join('');
+}
+
+console.log(isPalindrome("Madam")); // true
+```
+
+---
+
+### 🧩 24. Fibonacci (Recursion)
+
+```js
+function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(6)); // 8
+```
+
+---
+
+### 🧩 25. Tricky Hoisting
+
+```js
+var x = 10;
+(function() {
+  console.log(x);
+  var x = 20;
+})();
+```
+
+👉 **Output:** `undefined`
+📘 Because `var` is hoisted **without value** inside function.
+
+---
+
+# 🧠 BONUS: SUPER TRICKY QUICK-FIRE QUESTIONS
+
+| Question                         | Output     | Concept                   |
+| -------------------------------- | ---------- | ------------------------- |
+| `console.log([] == ![])`         | `true`     | Type coercion             |
+| `console.log('5' - 2)`           | `3`        | String → Number           |
+| `console.log('5' + 2)`           | `'52'`     | String concatenation      |
+| `console.log(true + false)`      | `1`        | Boolean → number          |
+| `console.log("2" > "12")`        | `true`     | String comparison by char |
+| `console.log([1,2] + [3,4])`     | `'1,23,4'` | Arrays → strings          |
+| `console.log(typeof NaN)`        | `'number'` | Special case              |
+| `console.log(null == undefined)` | `true`     | Loose equality rules      |
+
+---
+
+# 🚀 SUMMARY ROADMAP FOR INTERVIEW PREP
+
+| Level            | Topics                                   | Example Questions      |
+| ---------------- | ---------------------------------------- | ---------------------- |
+| **Basic**        | Data types, coercion, loops, functions   | Q1–Q5                  |
+| **Intermediate** | Scope, hoisting, arrays, closures        | Q6–Q14                 |
+| **Advanced**     | Async, promises, prototypes, performance | Q15–Q25                |
+| **Expert**       | Patterns, custom methods, optimization   | Flatten, debounce, map |
+  
+---
+
+Absolutely 🔥 — here’s a **brand new set** of **different, tricky, and logical JavaScript interview questions**, designed to **test deep understanding**, not memorization.
+
+These are real-world style questions often asked in **React, Node.js, and front-end interviews** — grouped from **intermediate → advanced → expert** level with clear explanations.
+
+---
+
+# 🧠 JAVASCRIPT INTERVIEW QUESTIONS — SET 2 (DIFFERENT & LOGICAL)
+
+---
+
+## ⚙️ LEVEL 1 — LOGICAL & INTERMEDIATE QUESTIONS
+
+---
+
+### 🧩 1. What will be the output?
+
+```js
+let a = 3;
+let b = new Number(3);
+let c = 3;
+
+console.log(a == b);
+console.log(a === b);
+console.log(b === c);
+```
+
+👉 **Output:**
+
+```
+true
+false
+false
+```
+
+📘 **Explanation:**
+`b` is an object (`Number` wrapper), while `a` and `c` are primitives.
+`==` does type coercion, but `===` checks both type and value.
+
+---
+
+### 🔢 2. What will this log?
+
+```js
+let obj = { a: 1, b: 2 };
+let clone = obj;
+clone.a = 99;
+
+console.log(obj.a);
+```
+
+👉 **Output:** `99`
+📘 **Reason:**
+Both `obj` and `clone` point to the same reference in memory.
+
+---
+
+### 🧮 3. Difference between `undefined` and `not defined`?
+
+* **undefined** → variable declared but not assigned.
+* **not defined** → variable never declared.
+
+```js
+let a;
+console.log(a);   // undefined
+console.log(b);   // ❌ ReferenceError: b is not defined
+```
+
+---
+
+### 🔄 4. What is the output?
+
+```js
+let arr = [10, 20, 30];
+delete arr[1];
+console.log(arr.length);
+console.log(arr);
+```
+
+👉 **Output:**
+
+```
+3
+[10, empty, 30]
+```
+
+📘 **Reason:**
+`delete` removes the value but not the array index (creates a “hole”).
+
+---
+
+### 🧠 5. What does this output?
+
+```js
+const name = "Soumadip";
+console.log([...name]);
+```
+
+👉 **Output:**
+`["S", "o", "u", "m", "a", "d", "i", "p"]`
+
+📘 **Reason:**
+The spread operator (`...`) splits iterable values like strings into individual elements.
+
+---
+
+## ⚡ LEVEL 2 — DEEP CONCEPT QUESTIONS
+
+---
+
+### 💡 6. How does JavaScript handle asynchronous code?
+
+> It uses an **event loop** with **callback queue** and **microtask queue**.
+
+👉 **Example:**
+
+```js
+console.log("A");
+
+setTimeout(() => console.log("B"), 0);
+
+Promise.resolve().then(() => console.log("C"));
+
+console.log("D");
+```
+
+**Output:**
+
+```
+A
+D
+C
+B
+```
+
+📘 **Reason:**
+Promises go into the microtask queue (executed before macrotasks like `setTimeout`).
+
+---
+
+### 🔁 7. Reverse words in a sentence
+
+```js
+function reverseWords(sentence) {
+  return sentence.split(" ").reverse().join(" ");
+}
+
+console.log(reverseWords("JavaScript is fun"));
+```
+
+👉 **Output:**
+`"fun is JavaScript"`
+
+---
+
+### 🧩 8. Find duplicates in an array
+
+```js
+const arr = [1, 2, 3, 2, 4, 5, 1];
+const duplicates = arr.filter((item, index) => arr.indexOf(item) !== index);
+console.log([...new Set(duplicates)]);
+```
+
+👉 **Output:** `[2, 1]`
+
+---
+
+### 🔍 9. Find unique elements
+
+```js
+const arr = [1, 2, 2, 3, 4, 4, 5];
+const unique = arr.filter((item, index) => arr.indexOf(item) === arr.lastIndexOf(item));
+console.log(unique);
+```
+
+👉 **Output:** `[3, 5]`
+
+---
+
+### 🔢 10. Sort array of objects by key
+
+```js
+const users = [
+  { name: "Soumadip", age: 25 },
+  { name: "Amit", age: 22 },
+  { name: "Raj", age: 28 },
+];
+
+users.sort((a, b) => a.age - b.age);
+console.log(users);
+```
+
+👉 Sorted by `age`.
+
+---
+
+## 🧠 LEVEL 3 — TRICKY CONCEPTUAL QUESTIONS
+
+---
+
+### 🧩 11. Output of this?
+
+```js
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+```
+
+👉 **Output:**
+
+```
+3
+3
+3
+```
+
+✅ **Fix using `let`:**
+
+```js
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 1000);
+}
+```
+
+Now output:
+
+```
+0
+1
+2
+```
+
+📘 **Reason:**
+`var` is function-scoped, `let` is block-scoped.
+
+---
+
+### ⚙️ 12. What’s `this` inside arrow function?
+
+```js
+const obj = {
+  value: 42,
+  log: () => console.log(this.value),
+};
+
+obj.log();
+```
+
+👉 **Output:** `undefined`
+
+📘 **Reason:**
+Arrow functions **don’t bind their own `this`** — they use the parent scope’s `this` (in this case, `window`).
+
+---
+
+### 🔮 13. Difference between `map()` and `forEach()`?
+
+| Feature                  | `.map()`          | `.forEach()` |
+| ------------------------ | ----------------- | ------------ |
+| Returns value?           | ✅ Yes (new array) | ❌ No         |
+| Modifies original array? | ❌                 | ✅ Possibly   |
+| Can be chained?          | ✅ Yes             | ❌ No         |
+
+**Example:**
+
+```js
+const nums = [1, 2, 3];
+const doubled = nums.map(n => n * 2);
+console.log(doubled); // [2,4,6]
+```
+
+---
+
+### 💡 14. Output?
+
+```js
+console.log([] == 0);
+console.log([] == []);
+```
+
+👉 **Output:**
+
+```
+true
+false
+```
+
+📘 **Reason:**
+
+* `[] == 0` → `"" == 0` → `0 == 0` → `true`
+* But `[] == []` compares **references**, not values.
+
+---
+
+### 🔥 15. Output?
+
+```js
+function sayHi() {
+  console.log(name);
+  console.log(age);
+  var name = "Soumadip";
+  let age = 27;
+}
+
+sayHi();
+```
+
+👉 **Error:**
+`ReferenceError: Cannot access 'age' before initialization`
+
+📘 **Reason:**
+
+* `var` is **hoisted** with `undefined`.
+* `let` and `const` are hoisted but **in temporal dead zone** (not accessible before declaration).
+
+---
+
+## 🧩 LEVEL 4 — ADVANCED & BRAIN TWISTERS
+
+---
+
+### ⚡ 16. Deep cloning an object
+
+```js
+const user = { name: "Soumadip", address: { city: "Kolkata" } };
+const copy = structuredClone(user);
+copy.address.city = "Delhi";
+
+console.log(user.address.city); // Kolkata
+```
+
+📘 **Reason:**
+`structuredClone()` creates a **deep copy**, not shallow.
+
+---
+
+### 💡 17. Output?
+
+```js
+let x = 10;
+(function() {
+  console.log(x);
+  let x = 20;
+})();
+```
+
+👉 **Error:**
+`ReferenceError: Cannot access 'x' before initialization`
+
+📘 **Reason:**
+`let` and `const` are hoisted but remain **inaccessible** until declared.
+
+---
+
+### 🔥 18. Logical challenge — Compose functions
+
+```js
+const add5 = n => n + 5;
+const multiply2 = n => n * 2;
+
+const compose = (f, g) => x => f(g(x));
+
+const result = compose(add5, multiply2)(10);
+console.log(result);
+```
+
+👉 **Output:** `25`
+
+📘 **Reason:**
+`compose(add5, multiply2)(10)` = `add5(multiply2(10))` = `add5(20)` = `25`.
+
+---
+
+### 🧩 19. Promise chain trick
+
+```js
+Promise.resolve(1)
+  .then(x => x + 1)
+  .then(x => { throw new Error("Oops!") })
+  .catch(err => 10)
+  .then(x => x + 1)
+  .then(console.log);
+```
+
+👉 **Output:** `11`
+
+📘 **Reason:**
+The error is caught (`10` returned), and chain continues.
+
+---
+
+### 🧠 20. Flatten nested arrays (logical)
+
+```js
+const arr = [1, [2, [3, [4]]]];
+
+function flat(arr) {
+  return arr.reduce(
+    (acc, val) => acc.concat(Array.isArray(val) ? flat(val) : val),
+    []
+  );
+}
+
+console.log(flat(arr));
+```
+
+👉 **Output:** `[1, 2, 3, 4]`
+
+---
+
+### ⚙️ 21. Output?
+
+```js
+const obj = { x: 1 };
+Object.freeze(obj);
+obj.x = 99;
+console.log(obj.x);
+```
+
+👉 **Output:** `1`
+
+📘 **Reason:**
+`Object.freeze()` prevents any modifications.
+
+---
+
+### 🔮 22. Async + Await trap
+
+```js
+async function test() {
+  return 42;
+}
+
+console.log(test());
+```
+
+👉 **Output:**
+`Promise { 42 }`
+
+📘 **Reason:**
+Every `async` function **returns a Promise** automatically.
+
+---
+
+### 🔥 23. Difference between `null` and `undefined`?
+
+| Feature | `null`              | `undefined`             |
+| ------- | ------------------- | ----------------------- |
+| Meaning | Intentional absence | Uninitialized           |
+| Type    | object              | undefined               |
+| Example | `let x = null`      | `let y; console.log(y)` |
+
+---
+
+### 🧮 24. How do you copy arrays correctly?
+
+```js
+const arr = [1, 2, 3];
+const copy = [...arr];
+copy.push(4);
+console.log(arr, copy);
+```
+
+👉 **Output:**
+
+```
+[1,2,3] [1,2,3,4]
+```
+
+📘 **Reason:**
+Spread operator creates a **new array**, not reference.
+
+---
+
+### 💥 25. Event loop order challenge
+
+```js
+console.log("Start");
+
+setTimeout(() => console.log("Timeout"), 0);
+
+Promise.resolve().then(() => console.log("Promise"));
+
+console.log("End");
+```
+
+👉 **Output:**
+
+```
+Start
+End
+Promise
+Timeout
+```
+
+---
+
+# 🚀 BONUS ROUND — MINI CHALLENGE QUESTIONS
+
+| #  | Question                         | Expected Output     |
+| -- | -------------------------------- | ------------------- |
+| 1  | `console.log([] + {})`           | `"[object Object]"` |
+| 2  | `console.log({} + [])`           | `0`                 |
+| 3  | `console.log(1 < 2 < 3)`         | `true`              |
+| 4  | `console.log(3 > 2 > 1)`         | `false`             |
+| 5  | `console.log(+true)`             | `1`                 |
+| 6  | `console.log(typeof (() => {}))` | `"function"`        |
+| 7  | `console.log(typeof class {})`   | `"function"`        |
+| 8  | `console.log(typeof NaN)`        | `"number"`          |
+| 9  | `console.log([] == ![])`         | `true`              |
+| 10 | `console.log(0 == [])`           | `true`              |
+
+---
+
+# 🧭 Summary: Key Areas for Logical JS Interviews
+
+| Category          | Mastery Topics                    | Used In                    |
+| ----------------- | --------------------------------- | -------------------------- |
+| **Core Logic**    | Coercion, Scopes, Hoisting        | All JS Interviews          |
+| **Intermediate**  | Closures, `this`, Async, Loops    | React / Node               |
+| **Advanced**      | Promises, Composition, Currying   | Senior Roles               |
+| **Expert Tricks** | Event Loop, Microtasks, Prototype | System Design & Frameworks |
+
+---
+
+Would you like me to now prepare a **"JavaScript Logical Interview Workbook"** (50+ brand new questions + answers + mini code challenges) in a **daily practice format (Day 1–Day 15)** to build interview-level problem-solving skills step-by-step?
